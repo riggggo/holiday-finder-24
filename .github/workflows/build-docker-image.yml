@@ -28,10 +28,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker push client
-        run: docker tag client:latest ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client 
+        run: docker tag client ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client 
         # && docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client:latest
       - name: Docker push api
-        run: docker tag api:latest ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api
+        run: docker tag api ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api
         #  && docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api:latest
   
 
