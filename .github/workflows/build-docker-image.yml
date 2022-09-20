@@ -17,4 +17,19 @@ jobs:
       run: docker build ./client --file ./client/Dockerfile --tag my-image-name:$(date +%s)
     - name: Build the API Docker image
       run: docker build ./api --file ./api/Dockerfile --tag my-image-name:$(date +%s)
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker push
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0:latest
+  
+
+
     
