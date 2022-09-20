@@ -14,9 +14,9 @@ jobs:
     - uses: actions/checkout@v3 # reuses already existing GitHub action
     
     - name: Build the Client Docker image
-      run: docker build ./client --file ./client/Dockerfile --tag client:latest
+      run: docker build ./client --file ./client/Dockerfile --tag client
     - name: Build the API Docker image
-      run: docker build ./api --file ./api/Dockerfile --tag api:latest
+      run: docker build ./api --file ./api/Dockerfile --tag api
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -28,9 +28,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker push client
-        run: docker tag client:latest ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client && docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client:latest
+        run: docker tag client:latest ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client 
+        # && docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client:latest
       - name: Docker push api
-        run: docker tag api:latest ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api && docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api:latest
+        run: docker tag api:latest ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api
+        #  && docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api:latest
   
 
 
