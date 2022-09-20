@@ -1,0 +1,17 @@
+name: Create Docker image
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3 # reuses already existing GitHub action
+    
+    - name: Build the Docker image
+      run: docker build ./client --file Dockerfile --tag my-image-name:$(date +%s)
