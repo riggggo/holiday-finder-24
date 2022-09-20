@@ -8,29 +8,23 @@ on:
 
 jobs:
 
-  build:
+  build and push:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3 # reuses already existing GitHub action
-    
+    - uses: actions/checkout@v3 # reuses already existing GitHub action   
     - name: Build the Client Docker image
-      run: docker build ./client --file ./client/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client 
+      run: docker build ./client --file ./client/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client
     - name: Build the API Docker image
       run: docker build ./api --file ./api/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker push client
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client:latest
-      - name: Docker push api
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api:latest
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Docker push client
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_client:latest
+    - name: Docker push api
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api:latest
   
 
 
