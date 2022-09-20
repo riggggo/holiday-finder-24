@@ -13,5 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3 # reuses already existing GitHub action
     
-    - name: Build the Docker image
-      run: docker build ./client --file ./client/Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the Client Docker image
+      run: docker build . --file ./client/Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the API Docker image
+      run: docker build . --file ./api/Dockerfile --tag my-image-name:$(date +%s)
+    
