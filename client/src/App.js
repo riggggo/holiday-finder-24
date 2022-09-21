@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         
         <p>
-        This page is still in development.
+        This page is still under development. 
         </p>
         <a
           className="App-link"
