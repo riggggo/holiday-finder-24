@@ -25,6 +25,17 @@ services:
 
     depends_on:
       - api
+      - website_1
+    stdin_open: true
+    tty: true
+  website_1:
+    container_name: website_1
+    image: index.docker.io/riggggo/website_1.0:latest
+    ports: 
+      - '4000:4000'
+    # volumes:
+    #   - ./client:/app/client
+    #   - ./app/client/node_modules 
     stdin_open: true
     tty: true
   watchtower:
@@ -32,4 +43,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/config.json
-    command: --interval 30
+    command: --interval 30 --cleanup 
