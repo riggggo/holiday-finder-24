@@ -1,7 +1,6 @@
 {
   "name": "website_2.0",
   "version": "0.1.0",
-  "homepage": "https://ricofinkbeiner.de/website2",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
