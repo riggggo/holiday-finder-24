@@ -9,9 +9,6 @@ root.render(
   <React.StrictMode>
     <BrowserRouter basename="/website2">
       <Routes>
-        <Route exact path="/" element={<App />} />
-      </Routes>
-      <Routes>
         <Route path="/" element={<App />} />
       </Routes>
     </BrowserRouter>
