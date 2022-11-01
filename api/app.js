@@ -2,7 +2,7 @@ const http = require('http');
 const express = require('express');
 const app = express();
 
-
+app.keepAliveTimeout = 2 * 60 * 1000;
 const port = 8000;
 const airports = [
   "Munich", "Vienna", "Cologne"
