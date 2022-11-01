@@ -13,6 +13,15 @@ app.get("/api/getAirports", (req, res) => {
   res.json({"airports": airports});
 })
 
+app.get("/api/", (req, res) => {
+  res.json({"airports": airports});
+})
+
+app.get("/getAirports", (req, res) => {
+  res.json({"airports": airports});
+})
+
+
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 })
