@@ -9,7 +9,7 @@ import {
   Toolbar,
   IconButton,
 } from "@material-ui/core";
-import { ThemeProvider } from "@emotion/react";
+
 export default function NavigationBar() {
   const navigate = useNavigate();
 //<AppBar style={{ background: '#2E3B55' }}>
