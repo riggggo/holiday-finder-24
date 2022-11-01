@@ -7,7 +7,7 @@ COPY package.json .
 # COPY package-lock.json .
 
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . . 
 # local files to current directory
