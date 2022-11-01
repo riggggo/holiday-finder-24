@@ -1,5 +1,4 @@
 const http = require('http');
-const cors = require('cors');
 const express = require('express');
 const app = express();
 
@@ -10,7 +9,7 @@ const airports = [
 ]
 
 
-app.get("/getAirports", (req, res) => {
+app.get("/api/getAirports", (req, res) => {
   res.json({"airports": airports});
 })
 

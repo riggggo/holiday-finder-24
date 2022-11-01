@@ -26,7 +26,7 @@ export default function SelectAirport(props) {
   const [selectedAirports, setSelectedAirports] = React.useState([]);
   const [airports, setAirports] = React.useState([]);
   useEffect(() => {
-    fetch("/getAirports")
+    fetch("/api/getAirports")
       .then((response) => response.json())
       .then((data) => {
         setAirports(data.airports); //set to airports varibale
