@@ -9,4 +9,8 @@
     color: white;
   }
 
-  
+  .footer {
+    margin-top: auto 0;
+    background-color: #013474;
+    padding: 0 10px;
+  }
