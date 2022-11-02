@@ -37,20 +37,21 @@ export default function SelectAirport(props) {
     const {
       target: { value },
     } = event;
+ 
     setSelectedAirports(typeof value === "string" ? value.split(",") : value);
-    props.callback(event.target.value);
+    
+    props.callback(value);
   };
 
   if (airports.length === 0) {
     return (
-      <Box sx={{ minWidth: 150 }}>
-        <FormControl>
+      
+        <FormControl fullWidth>
           <InputLabel>Airports</InputLabel>
           <Select
             labelId="airports"
             id="airports"
-            multiple
-            sx={{ width: 228 }}
+            multiple  
             value={[]}
             input={<OutlinedInput label="Airports" />}
             MenuProps={MenuProps}
@@ -60,18 +61,17 @@ export default function SelectAirport(props) {
             </MenuItem>
           </Select>
         </FormControl>
-      </Box>
+    
     );
   } else {
     return (
-      <Box sx={{ minWidth: 150 }}>
-        <FormControl>
+      
+        <FormControl fullWidth>
           <InputLabel>Airports</InputLabel>
           <Select
             labelId="airports"
             id="airports"
             multiple
-            sx={{ width: 228 }}
             value={selectedAirports}
             onChange={handleChange}
             input={<OutlinedInput label="Airports" />}
@@ -86,7 +86,7 @@ export default function SelectAirport(props) {
             ))}
           </Select>
         </FormControl>
-      </Box>
+      
     );
   }
 }

@@ -15,13 +15,14 @@ export default function SelectDate(props) {
     <Box sx={{ minWidth: 160 }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
+          
           ampm={false}
           label={props.ownLabel}
           inputFormat="dd/MM/yyyy"
           value={value}
           onChange={handleChange}
           renderInput={(params) => (
-            <TextField {...params} sx={{ width: 228 }} />
+            <TextField {...params} fullWidth />
           )}
         />
       </LocalizationProvider>

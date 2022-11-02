@@ -1,0 +1,31 @@
+@media only screen and (max-width: 768px) {
+.search-wrapper{
+    padding: 10px 7px 10px 7px;
+    margin-bottom: 20px;
+
+}
+.title-wrapper{
+    background-color: #ffffff;
+    padding: 20px 0px;
+    border-radius: 7px;
+    box-shadow:  8px 8px 24px #d0d0d0,
+    -8px -8px 24px #f0f0f0;
+    margin:50px 0px 50px 0px;
+}
+}
+
+@media only screen and not (max-width: 768px){
+    .search-wrapper{
+        padding: 10px 40px 10px 40px;
+        margin-bottom: 20px;
+    }
+    
+    .title-wrapper{
+        background-color: #ffffff;
+        padding: 20px 0px;
+        border-radius: 7px;
+        box-shadow:  8px 8px 24px #d0d0d0,
+        -8px -8px 24px #f0f0f0;
+        margin:50px 0px 50px 0px;
+    }
+}
