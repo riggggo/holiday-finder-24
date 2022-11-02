@@ -4,14 +4,30 @@ body {
   font-family: 'Roboto Slab', serif;
   text-align: center;
   color: black;
-  margin: 0 0 120px;
-  /* bottom = footer height */
+  margin: 0;
+  padding: 0;
+  background-image: url("images/background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .title{
   margin: 30px 20px 30px 20px;
 }
-
+.content{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  
+  flex-grow: 1;
+  
+}
 .sub-title{
   margin-bottom: 30px;
+}
+.footer {
+  margin-top: auto 0;
+  background-color: #013474;
+
 }

@@ -7,15 +7,19 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from "./style/colorTheme.jsx";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <div className="root-div">
   <React.StrictMode>
     
       <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={
+          
+            <Home />
+         } />
         </Routes>
         </MuiThemeProvider>
       </BrowserRouter>
     
-  </React.StrictMode>
+  </React.StrictMode></div>
 );

@@ -8,9 +8,8 @@
     background-color: #ffffff;
     padding: 20px 0px;
     border-radius: 7px;
-    box-shadow:  8px 8px 24px #d0d0d0,
-    -8px -8px 24px #f0f0f0;
     margin:50px 0px 50px 0px;
+   
 }
 }
 
@@ -24,8 +23,7 @@
         background-color: #ffffff;
         padding: 20px 0px;
         border-radius: 7px;
-        box-shadow:  8px 8px 24px #d0d0d0,
-        -8px -8px 24px #f0f0f0;
         margin:50px 0px 50px 0px;
+        
     }
 }

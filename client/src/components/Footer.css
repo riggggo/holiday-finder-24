@@ -1,25 +1,12 @@
 .github-logo{
     width: 25px;
     height: 25px;
+    padding: 20px;
 }
 .copyright {
+   padding-top: 30px;
     margin-top: 25px;
-    color: gray;
+    color: white;
   }
-  
-.links {
-margin-top: 20px;
 
-}
-
-footer {
-    margin-top: 20px;
-    box-shadow: -1px 7px 10px 4px #000000;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 120px;
-    width: 100%;
-    overflow: hidden;
-  }
   

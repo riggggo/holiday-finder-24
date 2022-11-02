@@ -10,8 +10,9 @@ import { Container, TextField } from "@mui/material";
 export default function Home() {
   return (
     <div>
-      <NavigationBar />
+      
       <div className="content">
+      <NavigationBar />
         <Container maxWidth="md">
           <div className="title-wrapper">
             <h1 className="title">Holiday24</h1>
@@ -23,7 +24,10 @@ export default function Home() {
           </div>
         </Container>
       </div>
-      <Footer />
+      <div className="footer">
+        <Footer />
+      </div>
+      
     </div>
   );
 }
