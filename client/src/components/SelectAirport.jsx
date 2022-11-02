@@ -26,7 +26,7 @@ export default function SelectAirport(props) {
   const [selectedAirports, setSelectedAirports] = React.useState([]);
   const [airports, setAirports] = React.useState([]);
   useEffect(() => {
-    fetch("api/getAirports")
+    fetch("/api/getAirports")
       .then((response) => response.json())
       .then((data) => {
         setAirports(data.airports); //set to airports varibale
@@ -55,6 +55,7 @@ export default function SelectAirport(props) {
             value={[]}
             input={<OutlinedInput label="Airports" />}
             MenuProps={MenuProps}
+            required
           >
             <MenuItem key={0} value={"Loading"}>
               <ListItemText primary={"Loading..."} />
@@ -69,6 +70,7 @@ export default function SelectAirport(props) {
         <FormControl fullWidth>
           <InputLabel>Airports</InputLabel>
           <Select
+          required
             labelId="airports"
             id="airports"
             multiple

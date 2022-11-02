@@ -2,14 +2,10 @@ import { Button, Box, Grid, TextField } from "@mui/material";
 import SelectDate from "./SelectDate";
 import SelectAirport from "./SelectAirport";
 import React, { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function FilterBar() {
   const [query, handleSearchBox] = React.useState("");
-
-  const handleSubmit = () => {
-    
-  };
-
+  const navigate = useNavigate();
   const [filters, setFilters] = React.useState({
     timeTo: null,
     timeFrom: null,
@@ -17,6 +13,25 @@ export default function FilterBar() {
     children: 0,
     airport: [],
   });
+  
+  const handleSubmit = () => {
+    navigate(`/results/${createFilterSting()}`)
+  };
+
+  const formatDate = (date) => {
+    if (date === null) {
+      date = new Date();
+    }
+    return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+  }
+  
+
+  const createFilterSting = () => {
+    return "" + query + "/" + formatDate(filters.timeTo) + "/" + formatDate(filters.timeFrom) + "/" +
+    filters.adults + "/" + filters.children + "/" + filters.airport.join(",");
+  }
+  
+  
 
   const handleAirportChange = (airports) => {
     setFilters({
@@ -88,12 +103,12 @@ export default function FilterBar() {
           </Grid>
           <Grid item xs={6}  md={3} lg={3}>
             <Box>
-              <SelectDate callback={handleTimeChangeFrom} ownLabel={"From"} />
+              <SelectDate callback={handleTimeChangeFrom} ownLabel={"From"} today={true}/>
             </Box>
           </Grid>
           <Grid item xs={6}  md={3} lg={3}>
             <Box>
-              <SelectDate callback={handleTimeChangeTo} ownLabel={"To"} />
+              <SelectDate callback={handleTimeChangeTo} ownLabel={"To"} today={false}/>
             </Box>
             {
               // TODO: validate that departure date > arrival date
@@ -105,15 +120,15 @@ export default function FilterBar() {
                 id="adults"
                 label="Adults"
                 type="number"
-                defaultValue={0}
+                defaultValue={1}
                 onChange={handleAdultsChange}
                 fullWidth
-
+                
                 InputLabelProps={{
                   shrink: true,
                 }}
                 InputProps={{
-                  inputProps: { min: 0, max: 6 },
+                  inputProps: { min: 1, max: 6 },
                 }}
               />
             </Box>
@@ -130,6 +145,7 @@ export default function FilterBar() {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                required
                 InputProps={{
                   inputProps: { min: 0, max: 10 },
                 }}

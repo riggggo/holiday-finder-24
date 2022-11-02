@@ -1,13 +1,34 @@
-import "./Home.css";
-import React from "react";
+
+import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import NavigationBar from "../components/NavigationBar";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Search from "../components/Search";
 import { Container, TextField } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
+export default function Results() {
 
-export default function Home() {
+
+
+
+  const [searchResults, setSearchResults] = React.useState([]);
+  useEffect(() => {
+    fetch("api/getSearchResults/${query}/${filterString}")
+      .then((response) => response.json())
+      .then((data) => {
+        setSearchResults(data.searchResults); //set to airports varibale
+      });
+  }, []);
+
+
+ const [searchParams, setSearchParams] = useSearchParams();
+console.log(searchParams);
+
+//TODO
+
+
+
   return (
     <div>
       
@@ -19,6 +40,15 @@ export default function Home() {
             <div className="sub-title">Find your perfect trip!</div>
             <div className="search-wrapper">
             <Search ></Search>
+            </div>
+            
+          </div>
+        </Container>
+        <Container maxWidth="lg">
+          <div className="title-wrapper">
+            <div className="sub-title">Results:</div>
+            <div className="search-wrapper">
+            
             </div>
             
           </div>

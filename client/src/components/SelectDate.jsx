@@ -4,7 +4,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Box, TextField } from "@mui/material";
 export default function SelectDate(props) {
-  const [value, setValue] = React.useState(null);
+  let today = new Date();
+
+  const [value, setValue] = React.useState(props.today ? today : new Date(today.getFullYear(), today.getMonth(), today.getDate()+7));
 
   const handleChange = (date) => {
     setValue(date);
