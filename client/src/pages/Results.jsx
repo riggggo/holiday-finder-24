@@ -24,6 +24,13 @@ export default function Results() {
 
  const [searchParams, setSearchParams] = useSearchParams();
 console.log(searchParams);
+const [filters, setFilters] = React.useState({
+  timeTo: searchParams[1],
+  timeFrom: searchParams[2],
+  adults: searchParams[3],
+  children: searchParams[4],
+  airport: searchParams[5],
+});
 
 //TODO
 
