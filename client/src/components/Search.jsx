@@ -3,36 +3,41 @@ import SelectDate from "./SelectDate";
 import SelectAirport from "./SelectAirport";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 export default function FilterBar() {
   const [query, handleSearchBox] = React.useState("");
   const navigate = useNavigate();
+  const today = new Date();
   const [filters, setFilters] = React.useState({
-    timeTo: null,
-    timeFrom: null,
+    timeTo: new Date(today.getFullYear(), today.getMonth(), today.getDate()+7),
+    timeFrom: new Date(),
     adults: 1,
     children: 0,
     airport: [],
   });
   
   const handleSubmit = () => {
-    navigate(`/results/${createFilterSting()}`)
+    //navigate( {pathname: "/results", search: `?${createFilterSting()}`,});
+    navigate("/results" + createFilterSting());
   };
 
   const formatDate = (date) => {
     if (date === null) {
       date = new Date();
     }
-    return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
   }
   
-
+/*
   const createFilterSting = () => {
-    return "" + query + "/" + formatDate(filters.timeTo) + "/" + formatDate(filters.timeFrom) + "/" +
-    filters.adults + "/" + filters.children + "/" + filters.airport.join(",");
+    return "query=" + query + "&timeTo=" + formatDate(filters.timeTo) + "&timeFrom=" + formatDate(filters.timeFrom) + "&adults" +
+    filters.adults + "&children=" + filters.children + "&airports=" + filters.airport.join(",");
   }
-  
-  
-
+*/
+const createFilterSting = () => {
+  return "/" + query + "/" + formatDate(filters.timeTo) + "/" + formatDate(filters.timeFrom) + "/" +
+  filters.adults + "/" + filters.children + "/" + filters.airport.join(",");
+}
   const handleAirportChange = (airports) => {
     setFilters({
       ...filters,
@@ -103,12 +108,12 @@ export default function FilterBar() {
           </Grid>
           <Grid item xs={6}  md={3} lg={3}>
             <Box>
-              <SelectDate callback={handleTimeChangeFrom} ownLabel={"From"} today={true}/>
+              <SelectDate callback={handleTimeChangeFrom} ownLabel={"From"} initialDate={filters.timeFrom}/>
             </Box>
           </Grid>
           <Grid item xs={6}  md={3} lg={3}>
             <Box>
-              <SelectDate callback={handleTimeChangeTo} ownLabel={"To"} today={false}/>
+              <SelectDate callback={handleTimeChangeTo} ownLabel={"To"} initialDate={filters.timeTo}/>
             </Box>
             {
               // TODO: validate that departure date > arrival date
