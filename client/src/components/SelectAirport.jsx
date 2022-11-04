@@ -23,7 +23,8 @@ const MenuProps = {
 };
 
 export default function SelectAirport(props) {
-  const [selectedAirports, setSelectedAirports] = React.useState([]);
+  
+  const [selectedAirports, setSelectedAirports] = React.useState(props.airports);
   const [airports, setAirports] = React.useState([]);
   useEffect(() => {
     fetch("/api/getAirports")

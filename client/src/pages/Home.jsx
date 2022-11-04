@@ -8,6 +8,15 @@ import Search from "../components/Search";
 import { Container, TextField } from "@mui/material";
 
 export default function Home() {
+  const today = new Date();
+  const defaultFilters = {
+    timeTo: new Date(today.getFullYear(), today.getMonth(), today.getDate()+7),
+    timeFrom: new Date(),
+    adults: 1,
+    children: 0,
+    airport: [],
+    destination: ""
+  }
   return (
     <div>
       
@@ -18,7 +27,7 @@ export default function Home() {
             <h1 className="title">Holiday24</h1>
             <div className="sub-title">Find your perfect trip!</div>
             <div className="search-wrapper">
-            <Search ></Search>
+            <Search filters={defaultFilters} ></Search>
             </div>
             
           </div>

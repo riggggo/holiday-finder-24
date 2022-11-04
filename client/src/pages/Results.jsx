@@ -4,28 +4,46 @@ import NavigationBar from "../components/NavigationBar";
 import Search from "../components/Search";
 import { Container } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
-
-
-
+import SearchResult from "../components/SearchResult";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Typography } from "@material-ui/core";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import "./Results.css";
 export default function Results() {
- const [searchResults, setSearchResults] = React.useState([]);
- 
+  const [expanded, setExpanded] = React.useState(false);
 
- const getParamsFromUrl = () => {
-  let url = window.location.pathname.split("/");
-  const [, destination, timeTo, timeFrom, adults, children, airport] = url;
-  return {
-    timeTo: timeTo,
-    timeFrom: timeFrom,
-    adults: adults,
-    children: children,
-    airport: airport,
-    destination: destination,
-  }
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const [searchResults, setSearchResults] = React.useState([]);
 
- }
- const [filters, setFilters] = React.useState(getParamsFromUrl());
- 
+  const getParamsFromUrl = () => {
+    let url = window.location.pathname.split("/");
+
+    let [, , destination, timeTo, timeFrom, adults, children, airport] = url;
+    timeTo = new Date(
+      timeTo.split("-")[2],
+      timeTo.split("-")[1] - 1,
+      timeTo.split("-")[0]
+    );
+    timeFrom = new Date(
+      timeFrom.split("-")[2],
+      timeFrom.split("-")[1] - 1,
+      timeFrom.split("-")[0]
+    );
+    return {
+      timeTo: timeTo,
+      timeFrom: timeFrom,
+      adults: adults,
+      children: children,
+      airport: airport.split(","),
+      destination: destination,
+    };
+  };
+  const [filters, setFilters] = React.useState(getParamsFromUrl());
 
   useEffect(() => {
     fetch(`api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&
@@ -37,8 +55,6 @@ export default function Results() {
       });
   }, []);
 
-
-  
   console.log("filters: " + filters.timeFrom);
   //TODO
   /*
@@ -51,26 +67,53 @@ export default function Results() {
     setSearchParams({ sort: 'name', order: 'ascending' });
   }, [searchParams]);
 */
+
+  const example = {
+    name: "Iberostar Playa de Muro",
+    lat: 39.80012328,
+    long: 3.108648156,
+    averageRating: 4.0,
+    id: 1,
+  };
+  const getStringOfDate = (d) => {
+    let month =
+      d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
+    let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+    return day + "." + month + "." + d.getFullYear();
+  };
   return (
     <div>
       <div className="content">
         <NavigationBar />
         <Container maxWidth="lg">
           <div className="title-wrapper">
-            <h1 className="title">Holiday24</h1>
-            <div className="sub-title">Find your perfect trip!</div>
-            <div className="search-wrapper">
-              <Search></Search>
+            <h1 className="title">
+              <div className="font-weight-normal">
+                Hotels for <strong>"{filters.destination}":</strong>
+              </div>
+            </h1>
+            <div className="sub-title">
+              ({getStringOfDate(filters.timeFrom)} -{" "}
+              {getStringOfDate(filters.timeTo)})
             </div>
+
+            <div className="search-wrapper">
+              <Accordion
+                expanded={expanded === "panel1"}
+                onChange={handleChange("panel1")}
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <FilterAltIcon></FilterAltIcon>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Search filters={filters}></Search>
+                </AccordionDetails>
+              </Accordion>
+            </div>
+
+            <SearchResult hotel={example}></SearchResult>
+            <SearchResult hotel={example}></SearchResult>
           </div>
-        </Container>
-        <Container maxWidth="lg">
-          <div className="title-wrapper">
-            <div className="sub-title">Results:</div>
-            <div className="search-wrapper"></div> 
-            
-          </div>
-         
         </Container>
       </div>
       <div className="footer">
