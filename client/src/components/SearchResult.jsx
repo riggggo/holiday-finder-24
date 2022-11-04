@@ -16,7 +16,9 @@ import { Button, Rating } from "@mui/material";
 
 export default function SearchResult(props) {
   return (
-    <Card className="search-result-comp" sx={{ maxWidth: 700 }}>
+    <Card className="search-result-comp" sx={{ maxWidth: 700,
+      backgroundColor: "#Fbfbfb",
+   }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: grey[500] }}>

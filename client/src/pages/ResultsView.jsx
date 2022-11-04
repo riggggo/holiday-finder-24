@@ -10,8 +10,19 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Typography } from "@material-ui/core";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import "./Results.css";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 export default function Results() {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -46,7 +57,7 @@ export default function Results() {
   const [filters, setFilters] = React.useState(getParamsFromUrl());
 
   useEffect(() => {
-    fetch(`api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&
+    fetch(`/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&
     timeFrom=${filters.timeFrom}&adults=${filters.adults}&
     children=${filters.children}&airport=${filters.airport}&`)
       .then((response) => response.json())
@@ -55,26 +66,13 @@ export default function Results() {
       });
   }, []);
 
-  console.log("filters: " + filters.timeFrom);
-  //TODO
-  /*
-  useEffect(() => {
-    // read the params on component load and when any changes occur
-    const currentParams = Object.fromEntries([...searchParams]);
-    // get new values on change
-    console.log('useEffect:', currentParams);
-    // update the search params programmatically
-    setSearchParams({ sort: 'name', order: 'ascending' });
-  }, [searchParams]);
-*/
+ 
+  const components = searchResults.length === 0 ? <Grid item xs={12}>Loading...</Grid> : searchResults.map((hotel) => (
+    <Grid item xs={12} md={6}>
+      <SearchResult hotel={hotel}></SearchResult>
+    </Grid>
+  ));
 
-  const example = {
-    name: "Iberostar Playa de Muro",
-    lat: 39.80012328,
-    long: 3.108648156,
-    averageRating: 4.0,
-    id: 1,
-  };
   const getStringOfDate = (d) => {
     let month =
       d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
@@ -85,7 +83,7 @@ export default function Results() {
     <div>
       <div className="content">
         <NavigationBar />
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ padding: 0 }}>
           <div className="title-wrapper">
             <h1 className="title">
               <div className="font-weight-normal">
@@ -98,21 +96,26 @@ export default function Results() {
             </div>
 
             <div className="search-wrapper">
-              <Accordion
-                expanded={expanded === "panel1"}
-                onChange={handleChange("panel1")}
-              >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <FilterAltIcon></FilterAltIcon>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Search filters={filters}></Search>
-                </AccordionDetails>
-              </Accordion>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={12}>
+                  <Accordion
+                    sx={{
+                      backgroundColor: "#Fbfbfb",
+                    }}
+                    expanded={expanded === "panel1"}
+                    onChange={handleChange("panel1")}
+                  >
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <FilterAltIcon></FilterAltIcon>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Search filters={filters}></Search>
+                    </AccordionDetails>
+                  </Accordion>
+                </Grid>
+                {components}
+              </Grid>
             </div>
-
-            <SearchResult hotel={example}></SearchResult>
-            <SearchResult hotel={example}></SearchResult>
           </div>
         </Container>
       </div>

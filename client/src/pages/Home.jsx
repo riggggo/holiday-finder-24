@@ -1,4 +1,3 @@
-import "./Home.css";
 import React from "react";
 import Footer from "../components/Footer";
 import NavigationBar from "../components/NavigationBar";
@@ -22,7 +21,7 @@ export default function Home() {
       
       <div className="content">
       <NavigationBar />
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ padding: 0 }}>
           <div className="title-wrapper">
             <h1 className="title">Holiday24</h1>
             <div className="sub-title">Find your perfect trip!</div>
