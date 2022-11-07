@@ -4,13 +4,12 @@ import SelectAirport from "./SelectAirport";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { create } from "@mui/material/styles/createTransitions";
-
+import Autocomplete from "@mui/material/Autocomplete";
 export default function FilterBar(props) {
-
   const navigate = useNavigate();
 
   const [filters, setFilters] = React.useState(props.filters);
-  
+
   const handleSubmit = () => {
     console.log(createFilterSting());
     navigate("/results" + createFilterSting());
@@ -21,15 +20,27 @@ export default function FilterBar(props) {
     if (date === null) {
       date = new Date();
     }
-    return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-  }
-  
+    return (
+      date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+    );
+  };
 
-const createFilterSting = () => {
-  return "/" + filters.destination + "/" + formatDate(filters.timeTo) + "/" + formatDate(filters.timeFrom) + "/" +
-  filters.adults + "/" + filters.children + "/" + filters.airport.join(",");
-  
-}
+  const createFilterSting = () => {
+    return (
+      "/" +
+      filters.destination +
+      "/" +
+      formatDate(filters.timeTo) +
+      "/" +
+      formatDate(filters.timeFrom) +
+      "/" +
+      filters.adults +
+      "/" +
+      filters.children +
+      "/" +
+      filters.airport.join(",")
+    );
+  };
   const handleAirportChange = (airports) => {
     setFilters({
       ...filters,
@@ -51,8 +62,6 @@ const createFilterSting = () => {
     });
   };
 
-  
-
   const handleTimeChangeFrom = (newTime) => {
     setFilters({
       ...filters,
@@ -73,7 +82,7 @@ const createFilterSting = () => {
       ...filters,
       destination: value,
     });
-  }
+  };
   return (
     <div className="searchBox">
       <form onSubmit={handleSubmit} autoComplete="off">
@@ -81,30 +90,44 @@ const createFilterSting = () => {
           <Grid item xs={12} md={8} lg={8}>
             <Box>
               <div>
-                <TextField
-         
-                  fullWidth
-                  value={filters.destination}
-                  onChange={(e) => handleSearchBox(e.target.value)}
+                <Autocomplete
+                  disablePortal
+                  defaultValue={filters.destination}
+                  options={["Mallorca"]}
+                  onChange={(e, value) => handleSearchBox(value)}
+                  renderInput={(params) => (
+                    <TextField {...params} fullWidth defaultValue="Mallorca"
                   label="Destination"
                   variant="outlined"
                   color="primary"
-                  required
+                  required/>
+                  )}
                 />
               </div>
             </Box>
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
-            <SelectAirport callback={handleAirportChange} airports={filters.airport}/>
+            <SelectAirport
+              callback={handleAirportChange}
+              airports={filters.airport}
+            />
           </Grid>
-          <Grid item xs={6}  md={3} lg={3}>
+          <Grid item xs={6} md={3} lg={3}>
             <Box>
-              <SelectDate callback={handleTimeChangeFrom} ownLabel={"From"} initialDate={filters.timeFrom}/>
+              <SelectDate
+                callback={handleTimeChangeFrom}
+                ownLabel={"From"}
+                initialDate={filters.timeFrom}
+              />
             </Box>
           </Grid>
-          <Grid item xs={6}  md={3} lg={3}>
+          <Grid item xs={6} md={3} lg={3}>
             <Box>
-              <SelectDate callback={handleTimeChangeTo} ownLabel={"To"} initialDate={filters.timeTo}/>
+              <SelectDate
+                callback={handleTimeChangeTo}
+                ownLabel={"To"}
+                initialDate={filters.timeTo}
+              />
             </Box>
             {
               // TODO: validate that departure date > arrival date
@@ -119,7 +142,7 @@ const createFilterSting = () => {
                 defaultValue={filters.adults}
                 onChange={handleAdultsChange}
                 fullWidth
-                
+                required
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -129,7 +152,7 @@ const createFilterSting = () => {
               />
             </Box>
           </Grid>
-          <Grid item xs={6}md={3} lg={3}>
+          <Grid item xs={6} md={3} lg={3}>
             <Box>
               <TextField
                 id="children"
@@ -149,11 +172,9 @@ const createFilterSting = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={6}md={4} lg={4}>
+          <Grid item xs={6} md={4} lg={4}>
             <div className="search-button">
               <Button
-              
-              
                 type="submit"
                 color="primary"
                 variant="contained"

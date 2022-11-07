@@ -7,7 +7,7 @@ function Footer() {
     <footer>
       <div className="copyright">Copyright © {date.getFullYear()}
       <br/>
-      Dieses Projekt ist Teil der CHECK24 GenDev Holiday Challenge, steht darüber hinaus jedoch in keiner Verbindung mit CHECK24 und seinen Tochterunternehmen.
+     This project is part of the CHECK24 GenDev Holiday Challenge
      </div>
       <div className="links">
         <a href="https://github.com/riggggo/project"><img src={GitHubLogo} alt="Github Logo" className="github-logo"></img></a>

@@ -54,7 +54,7 @@ export default function SelectAirport(props) {
             id="airports"
             multiple  
             value={[]}
-            input={<OutlinedInput label="Airports" />}
+            input={<OutlinedInput label="Depature Airports" />}
             MenuProps={MenuProps}
             required
           >
@@ -69,7 +69,7 @@ export default function SelectAirport(props) {
     return (
       
         <FormControl fullWidth>
-          <InputLabel>Airports</InputLabel>
+          <InputLabel>Depature airports</InputLabel>
           <Select
           required
             labelId="airports"
@@ -77,7 +77,7 @@ export default function SelectAirport(props) {
             multiple
             value={selectedAirports}
             onChange={handleChange}
-            input={<OutlinedInput label="Airports" />}
+            input={<OutlinedInput label="Depature airports" />}
             renderValue={(selected) => selected.join(", ")}
             MenuProps={MenuProps}
           >

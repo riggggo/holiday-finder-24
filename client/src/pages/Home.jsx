@@ -9,12 +9,12 @@ import { Container, TextField } from "@mui/material";
 export default function Home() {
   const today = new Date();
   const defaultFilters = {
-    timeTo: new Date(today.getFullYear(), today.getMonth(), today.getDate()+7),
+    timeTo: new Date(today.getFullYear(), today.getMonth(), today.getDate()+21),
     timeFrom: new Date(),
     adults: 1,
     children: 0,
     airport: [],
-    destination: ""
+    destination:"Mallorca"
   }
   return (
     <div>

@@ -12,12 +12,19 @@ import { grey } from "@mui/material/colors";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Link } from "react-router-dom";
 import { Button, Rating } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 
 export default function SearchResult(props) {
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+
+    navigate(`/hotel/${props.hotel.id}/${props.hotel.hotelname}/${props.urlParams}`);
+  };
   return (
+    
     <Card className="search-result-comp" sx={{ maxWidth: 700,
-      backgroundColor: "#Fbfbfb",
+      backgroundColor: "#Eeeef1",
    }}>
       <CardHeader
         avatar={
@@ -25,24 +32,16 @@ export default function SearchResult(props) {
             <HotelIcon />
           </Avatar>
         }
-        action={
-          <a
-            href={`https://maps.google.com/maps?z=12&t=m&q=loc:${props.hotel.lat}+${props.hotel.long}`}
-          >
-            <IconButton aria-label="Location">
-              <LocationOnIcon />
-            </IconButton>
-          </a>
-        }
+
       
         
-      ></CardHeader><Typography variant="h5">{props.hotel.name}</Typography>
+      ></CardHeader><Typography variant="h5">{props.hotel.hotelname}</Typography>
 
       <CardContent>
         <Typography color="primary">
           <Rating
             name="read-only"
-            value={props.hotel.averageRating}
+            value={props.hotel.hotelstars}
             readOnly
             precision={0.1}
           />
@@ -51,8 +50,7 @@ export default function SearchResult(props) {
         <Button
           color="primary"
           variant="contained"
-          component={Link}
-          to={`/search/detail/${props.hotel.id}`}
+          onClick={handleSubmit}
         >
           More
         </Button>

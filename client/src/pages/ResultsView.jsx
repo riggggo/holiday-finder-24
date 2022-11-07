@@ -5,36 +5,26 @@ import Search from "../components/Search";
 import { Container } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import SearchResult from "../components/SearchResult";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Typography } from "@material-ui/core";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CircularProgress from '@mui/material/CircularProgress';
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import SearchExpandable from "../components/SearchExpandable";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 export default function Results() {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+  const status = {
+    LOADING: 0,
+    NO_RESULTS: 1,
+    RESULTS: 2,
   };
-  const [searchResults, setSearchResults] = React.useState([]);
+  const [searchResults, setSearchResults] = React.useState({status: status.LOADING, results: []});
 
   const getParamsFromUrl = () => {
     let url = window.location.pathname.split("/");
 
     let [, , destination, timeTo, timeFrom, adults, children, airport] = url;
+
     timeTo = new Date(
       timeTo.split("-")[2],
       timeTo.split("-")[1] - 1,
@@ -56,22 +46,27 @@ export default function Results() {
   };
   const [filters, setFilters] = React.useState(getParamsFromUrl());
 
-  useEffect(() => {
-    fetch(`/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&
-    timeFrom=${filters.timeFrom}&adults=${filters.adults}&
-    children=${filters.children}&airport=${filters.airport}&`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSearchResults(data.searchResults); //set to airports varibale
-      });
-  }, []);
+  
+  
+  
+  const getSearchResults = async () => {
+    const response = await fetch(
+      `/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}`
+    );
+    return response.json();
+  };
 
- 
-  const components = searchResults.length === 0 ? <Grid item xs={12}>Loading...</Grid> : searchResults.map((hotel) => (
-    <Grid item xs={12} md={6}>
-      <SearchResult hotel={hotel}></SearchResult>
-    </Grid>
-  ));
+  useEffect(() => {
+    getSearchResults()
+      .then((data) => {
+        if (data.searchResults.length === 0) {
+          setSearchResults({status: status.NO_RESULTS, results: data.searchResults});
+        } else {
+          setSearchResults({status: status.RESULTS, results: data.searchResults});
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   const getStringOfDate = (d) => {
     let month =
@@ -94,26 +89,32 @@ export default function Results() {
               ({getStringOfDate(filters.timeFrom)} -{" "}
               {getStringOfDate(filters.timeTo)})
             </div>
-
             <div className="search-wrapper">
               <Grid container spacing={3}>
                 <Grid item xs={12} md={12}>
-                  <Accordion
-                    sx={{
-                      backgroundColor: "#Fbfbfb",
-                    }}
-                    expanded={expanded === "panel1"}
-                    onChange={handleChange("panel1")}
-                  >
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <FilterAltIcon></FilterAltIcon>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Search filters={filters}></Search>
-                    </AccordionDetails>
-                  </Accordion>
+                  <SearchExpandable filters={filters} />
                 </Grid>
-                {components}
+                {searchResults.status === status.LOADING ? (
+                  <Grid item xs={12}>
+                  <CircularProgress />
+                  </Grid>
+                ) : searchResults.status === status.NO_RESULTS ? (
+                  <Grid item xs={12}>
+                    No results for the given filters found :/
+                  </Grid>
+                ) : (
+                  searchResults.results.map((hotel) => (
+                    <Grid item xs={12} md={6}>
+                      <SearchResult
+                        hotel={hotel}
+                        urlParams={window.location.pathname.replace(
+                          "/results/",
+                          ""
+                        )}
+                      ></SearchResult>
+                    </Grid>
+                  ))
+                )}
               </Grid>
             </div>
           </div>

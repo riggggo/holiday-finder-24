@@ -1,11 +1,13 @@
+import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+
 import Home from "./pages/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./style/colorTheme.jsx";
 import ResultsView from "./pages/ResultsView";
+import HotelView from "./pages/OfferView";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <div className="root-div">
@@ -15,6 +17,9 @@ root.render(
           <Routes>
             <Route path="/results/:destination/:timeTo/:timeFrom/:adults/:children/:airport" element={<ResultsView />} />
             
+          </Routes>
+          <Routes>
+            <Route exact path="/hotel/:id/:hotelname/:destination/:timeTo/:timeFrom/:adults/:children/:airport" element={<HotelView />} />
           </Routes>
           <Routes>
             <Route exact path="/" element={<Home />} />
