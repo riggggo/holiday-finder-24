@@ -91,7 +91,7 @@ export default function HotelView() {
           <div className="title-wrapper">
             <h1 className="title">
               <div className="font-weight-normal">
-                Offers from: <strong>"{filters.hotelname}":</strong>
+                Offers from <strong>"{filters.hotelname}":</strong>
               </div>
             </h1>
 
