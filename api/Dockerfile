@@ -4,6 +4,10 @@ FROM node:17-alpine
 WORKDIR /app/api
 
 
+# arg secified during the build process (--build-arg db_password=)
+# arg passed to env
+ARG db_password
+ENV db_password =$db_password
 COPY package.json .
 
 RUN npm install
