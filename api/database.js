@@ -8,5 +8,5 @@ module.exports = mysql.createConnection({
     port: '3306',
     password: process.env.DB_PASSWORD,
     database: 'holiday',
-    socketPath: '/var/run/mysqld/mysqld.sock'
-})
+    
+})//socketPath: '/var/run/mysqld/mysqld.sock'
