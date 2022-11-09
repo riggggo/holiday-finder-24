@@ -42,13 +42,14 @@ export default function HotelView() {
     };
   };
   const [filters, setFilters] = React.useState(getParamsFromUrl());
+  const status = {
 
-  //status: 
-  //  0: loading
-  //  1: no results
-  //  2: results
-  
-  const [offers, setOffers] = React.useState([]);
+    LOADING: 0,
+    NO_RESULTS: 1,
+    RESULTS: 2,
+    ERROR: 3
+  };
+  const [offers, setOffers] = React.useState({status: status.LOADING, results: []});
   const getStringOfDate = (d) => {
     let month =
       d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1;
@@ -57,31 +58,31 @@ export default function HotelView() {
   };
 
   const getHotelOffers = async () => {
-    const response =
-      await fetch(`/api/getOffers?id=${filters.id}&destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&`);
-  return response.json();
-    
-  }
+      await fetch(`/api/getOffers?id=${filters.id}&destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&`)
+      .then((res) => {
+        if (res.status >= 400 && res.status < 600) {
+          setOffers({ status: status.ERROR, results: null });
+          throw new Error("Bad response from server");
+        } 
+        return res.json();
+      }).then((data) => {
+        if (data.offers.length === 0) {
+          setOffers({status: status.NO_RESULTS, results: data.offers});
+        } else {
+          setOffers({status: status.RESULTS, results: data.offers});
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
+  
 
   useEffect(() => {
-    getHotelOffers().then((data) => {
-      setOffers(data.offers);
-    }).catch(console.error)
+    getHotelOffers();
   }, []);
 
 
-  const offer =
-    offers.length === 0 ? (
-      <Grid item xs={12}>
-        <CircularProgress />
-      </Grid>
-    ) : (offers.map((details) => (
-      <Grid item xs={12}>
-        <HotelOffer
-          offer={details}
-        ></HotelOffer>
-      </Grid>
-    )));
+  
 
   return (
     <div>
@@ -105,7 +106,27 @@ export default function HotelView() {
                 <Grid item xs={12} md={12}>
                   <SearchExpandable filters={filters} ></SearchExpandable>
                 </Grid>
-         {offer}
+         {
+    offers.status === status.LOADING ? (
+                  <Grid item xs={12}>
+                  <CircularProgress />
+                  </Grid>
+                ) : offers.status === status.NO_RESULTS ? (
+                  <Grid item xs={12}>
+                    No results for the given filters found :/
+                  </Grid>
+                ) : offers.status === status.ERROR ? (
+                  <Grid item xs={12}>
+                    An error occured :/
+                  </Grid>
+                ) :(offers.results.map((details) => (
+      <Grid item xs={12}>
+        <HotelOffer
+          offer={details}
+        ></HotelOffer>
+      </Grid>
+    )))
+    }
               </Grid>
             </div>
           </div>

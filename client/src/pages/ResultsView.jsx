@@ -5,7 +5,7 @@ import Search from "../components/Search";
 import { Container } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import SearchResult from "../components/SearchResult";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -17,8 +17,12 @@ export default function Results() {
     LOADING: 0,
     NO_RESULTS: 1,
     RESULTS: 2,
+    ERROR: 3,
   };
-  const [searchResults, setSearchResults] = React.useState({status: status.LOADING, results: []});
+  const [searchResults, setSearchResults] = React.useState({
+    status: status.LOADING,
+    results: [],
+  });
 
   const getParamsFromUrl = () => {
     let url = window.location.pathname.split("/");
@@ -46,26 +50,34 @@ export default function Results() {
   };
   const [filters, setFilters] = React.useState(getParamsFromUrl());
 
-  
-  
-  
   const getSearchResults = async () => {
-    const response = await fetch(
+    await fetch(
       `/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}`
-    );
-    return response.json();
+    ).then((res) => {
+      if (res.status >= 400 && res.status < 600) {
+        setSearchResults({ status: status.ERROR, results: null });
+        throw new Error("Bad response from server");
+      } 
+      return res.json();
+    }).then((data) => {
+      if (data.searchResults.length === 0) {
+        setSearchResults({
+          status: status.NO_RESULTS,
+          results: data.searchResults,
+        });
+      } else {
+        setSearchResults({
+          status: status.RESULTS,
+          results: data.searchResults,
+        });
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   useEffect(() => {
     getSearchResults()
-      .then((data) => {
-        if (data.searchResults.length === 0) {
-          setSearchResults({status: status.NO_RESULTS, results: data.searchResults});
-        } else {
-          setSearchResults({status: status.RESULTS, results: data.searchResults});
-        }
-      })
-      .catch(console.error);
   }, []);
 
   const getStringOfDate = (d) => {
@@ -96,11 +108,15 @@ export default function Results() {
                 </Grid>
                 {searchResults.status === status.LOADING ? (
                   <Grid item xs={12}>
-                  <CircularProgress />
+                    <CircularProgress />
                   </Grid>
                 ) : searchResults.status === status.NO_RESULTS ? (
                   <Grid item xs={12}>
                     No results for the given filters found :/
+                  </Grid>
+                ) : searchResults.status === status.ERROR ? (
+                  <Grid item xs={12}>
+                    An error occured :/
                   </Grid>
                 ) : (
                   searchResults.results.map((hotel) => (
