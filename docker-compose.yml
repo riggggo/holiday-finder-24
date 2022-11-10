@@ -1,0 +1,22 @@
+version: '3.8'
+
+
+services:
+  api:
+    container_name: api
+    image: index.docker.io/riggggo/website_2.0_api:latest
+    ports:
+      - '8000:8000'
+    network_mode: "host"  
+    stdin_open: true
+    tty: true
+    restart: on-failure
+  client:
+    container_name: client_container
+    image: index.docker.io/riggggo/website_2.0_client:latest
+    ports: 
+      - '3000:3000'
+    depends_on:
+      - api
+    stdin_open: true
+    tty: true
