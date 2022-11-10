@@ -53,6 +53,9 @@ const airports = [
   "ZRH",
 ];
 
+
+
+
 app.get("/api/getAirports", (_, res) => {
   res.json({ airports: airports });
 });
