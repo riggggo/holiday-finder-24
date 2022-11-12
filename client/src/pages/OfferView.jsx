@@ -110,6 +110,19 @@ export default function HotelView() {
     getHotelOffers();
   }, []);
 
+  const getChildrenAdultsString = () => {
+    let adultsString = `${parseInt(filters.adults) === 1 ? "one adult" : filters.adults + " adults"}`;
+   
+    if (parseInt(filters.children) === 0) {
+      return adultsString;
+    } else if (parseInt(filters.children) === 1){
+      return adultsString + " and one child";
+    } else {
+      return adultsString + ` and ${filters.children} children`;
+    }
+    
+  }
+
   return (
     <div>
       <div className="content">
@@ -124,7 +137,8 @@ export default function HotelView() {
 
             <div className="sub-title">
               ({getStringOfDate(filters.timeFrom)} -{" "}
-              {getStringOfDate(filters.timeTo)})
+              {getStringOfDate(filters.timeTo)}, {getChildrenAdultsString()})
+          <br/>
             </div>
 
             <div className="search-wrapper">
