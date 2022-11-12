@@ -83,6 +83,7 @@ const getQueryParams = (req) => {
     .split(",")
     .map((airport) => mysql.escape(airport))
     .toString();
+
   return {
     destination: mysql.escape(req.query.destination),
     timeTo: mysql.escape(req.query.timeTo),
@@ -90,11 +91,13 @@ const getQueryParams = (req) => {
     adults: mysql.escape(req.query.adults),
     children: mysql.escape(req.query.children),
     airport: airports_string,
+    start: parseInt(mysql.escape(req.query.start).replace("'", "")),
+    numberToLoad: parseInt(mysql.escape(req.query.numberToLoad).replace("'", ""))
   };
 };
 
 
-const processQueryResults = (req, from, to) => {
+const processQueryResults = (req) => {
   const filters = getQueryParams(req);
   const db_query = `SELECT distinct hotelname, id, latitude, latitude, hotelstars FROM hotels, offers WHERE 
       hotels.id = offers.hotelid AND
@@ -103,13 +106,12 @@ const processQueryResults = (req, from, to) => {
       outbounddepartureairport in (${filters.airport})  AND
       departuredate >= "${formatDate(filters.timeFrom)}" AND 
       returndate <= "${formatDate(filters.timeTo)}"
-      LIMIT ${from} OFFSET ${to}
-      `;
+      LIMIT ${filters.numberToLoad} OFFSET ${filters.start}`;
 
   return db.promise().query(db_query);
 };
 
-const processQueryOffers = (req, from, to) => {
+const processQueryOffers = (req) => {
   const filters = {
     ...getQueryParams(req),
     id: mysql.escape(req.query.id),
@@ -121,13 +123,13 @@ const processQueryOffers = (req, from, to) => {
     outbounddepartureairport in (${filters.airport}) AND
     departuredate >= "${formatDate(filters.timeFrom)}" AND 
     returndate <= "${formatDate(filters.timeTo)}"
-    LIMIT ${from} OFFSET ${to}`);
+    LIMIT ${filters.numberToLoad} OFFSET ${filters.start}`);
 };
 
 app.get("/api/getOffers", async (req, res) => {
   console.log("Handling offer Request");
   try {
-    const offers = await processQueryOffers(req, 10, 0);
+    const offers = await processQueryOffers(req);
     res.json({ offers: offers[0] });
   } catch (e) {
     console.log(e);
@@ -142,7 +144,8 @@ app.get("/api/getOffers", async (req, res) => {
 app.get("/api/getSearchResults", async (req, res) => {
   console.log("Handlich offer Request");
   try {
-    const hotels = await processQueryResults(req, 10, 10);
+    const hotels = await processQueryResults(req);
+    console.log(hotels[0])
     res.json({ searchResults: hotels[0] });
   } catch (e) {
     console.log(e);
