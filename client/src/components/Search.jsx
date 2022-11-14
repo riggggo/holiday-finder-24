@@ -87,7 +87,7 @@ export default function FilterBar(props) {
     <div className="searchBox">
       <form onSubmit={handleSubmit} autoComplete="off">
         <Grid container spacing={2} justifyContent="space-around">
-          <Grid item xs={12} md={8} lg={8}>
+          <Grid item xs={12} md={5} lg={5}>
             <Box>
               <div>
                 <Autocomplete
@@ -106,7 +106,7 @@ export default function FilterBar(props) {
               </div>
             </Box>
           </Grid>
-          <Grid item xs={12} md={4} lg={4}>
+          <Grid item xs={12} md={7} lg={7}>
             <SelectAirport
               callback={handleAirportChange}
               airports={filters.airport}

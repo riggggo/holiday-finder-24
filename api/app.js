@@ -7,59 +7,58 @@ const port = 8000;
 const Cache = require("./cache");
 const MAX_ELMENTS_CACHE = 20;
 const cache_results = new Cache(MAX_ELMENTS_CACHE);
-const airports = [
-  "AMS",
-  "BER",
-  "BLL",
-  "BRE",
-  "BRN",
-  "BRS",
-  "BRU",
-  "BSL",
-  "CGN",
-  "DRS",
-  "DTM",
-  "DUS",
-  "EIN",
-  "ERF",
-  "FDH",
-  "FKB",
-  "FMM",
-  "FMO",
-  "FRA",
-  "GRQ",
-  "GRZ",
-  "GVA",
-  "GWT",
-  "HAJ",
-  "HAM",
-  "INN",
-  "KLU",
-  "KRK",
-  "KSF",
-  "LBC",
-  "LEJ",
-  "LNZ",
-  "LUX",
-  "MUC",
-  "NRN",
-  "NUE",
-  "PAD",
-  "PMI",
-  "PRG",
-  "SCN",
-  "STR",
-  "SXB",
-  "SZG",
-  "VIE",
-  "WAW",
-  "ZRH",
-];
-
-
+const airports = {
+  AMS: "Amsterdam (NL)",
+  BER: "Berlin (DE)",
+  BLL: "Billund (DK)",
+  BRE: "Bremen (DE)",
+  BRN: "Berne (CH)",
+  BRS: "Bristol (GB)",
+  BRU: "Brussels (BE)",
+  BSL: "Basel (CH)",
+  CGN: "Cologne (DE)",
+  DRS: "Dresden (DE)",
+  DTM: "Dortmund (DE)",
+  DUS: "Duesseldorf (DE)",
+  EIN: "Eindhoven (NL)",
+  ERF: "Erfurt (DE)",
+  FDH: "Friedrichshafen (DE)",
+  FRA: "Frankfurt/Main (DE)",
+  GRQ: "Groningen (NL)",
+  GRZ: "Graz (AT)",
+  GVA: "Geneva (CH)",
+  HAJ: "Hanover (DE)",
+  HAM: "Hamburg (DE)",
+  INN: "Innsbruck (AT)",
+  FKB: "Karlsruhe (DE)",
+  KLU: "Klagenfurt (AT)",
+  KRK: "Krakow (PL)",
+  KSF: "Kassel (DE)",
+  LBC: "Luebeck (DE)",
+  LEJ: "Leipzig (DE)",
+  LNZ: "Linz (AT)",
+  LUX: "Luxembourg (LU)",
+  MUC: "Munich (DE)",
+  FMM: "Memmingen (DE)",
+  FMO: "Muenster/Osnabrueck (DE)",
+  NUE: "Nuremberg (DE)",
+  PAD: "Paderborn (DE)",
+  PMI: "Palma Mallorca (ES)",
+  PRG: "Prague (CZ)",
+  SCN: "Saarbruecken (DE)",
+  STR: "Stuttgart (DE)",
+  SXB: "Strasbourg (FR)",
+  SZG: "Salzburg (AT)",
+  VIE: "Vienna (AT)",
+  WAW: "Warsaw (PL)",
+  NRN: "Weeze (DE)",
+  GWT: "Westerland (DE)",
+  ZRH: "Zurich (CH)",
+};
 
 
 app.get("/api/getAirports", (_, res) => {
+  for ()
   res.json({ airports: airports });
 });
 
@@ -95,10 +94,11 @@ const getQueryParams = (req) => {
     children: mysql.escape(req.query.children),
     airport: airports_string,
     start: parseInt(mysql.escape(req.query.start).replace("'", "")),
-    numberToLoad: parseInt(mysql.escape(req.query.numberToLoad).replace("'", ""))
+    numberToLoad: parseInt(
+      mysql.escape(req.query.numberToLoad).replace("'", "")
+    ),
   };
 };
-
 
 const processQueryResults = (req, filters) => {
   const db_query = `SELECT distinct hotelname, id, latitude, latitude, hotelstars FROM hotels, offers WHERE 
@@ -136,11 +136,10 @@ app.get("/api/getOffers", async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400).json({
-      searchResults: e
+      searchResults: e,
     });
   }
   console.log("Finished offer Request " + new Date());
-  
 });
 
 app.get("/api/getSearchResults", async (req, res) => {
@@ -153,17 +152,16 @@ app.get("/api/getSearchResults", async (req, res) => {
       res.json({ searchResults: element });
     } else {
       const hotels = await processQueryResults(req, filters);
-      cache_results.addElement({filters: filters, results: hotels[0]});
+      cache_results.addElement({ filters: filters, results: hotels[0] });
       res.json({ searchResults: hotels[0] });
     }
   } catch (e) {
     console.log(e);
     res.status(400).json({
-      searchResults: e
+      searchResults: e,
     });
   }
   console.log("Finished result Request " + new Date());
-  
 });
 
 app.listen(port, () => {
