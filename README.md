@@ -42,6 +42,9 @@ mv hotels_sample_data.csv /var/lib/mysql-files/hotels.csv
     </pre>
     You can view the application on localhost:3000 :)
     
+## Contact
+
+Feel free to [contact me](https://www.ricofinkbeiner.de/contact).
     
 
 
