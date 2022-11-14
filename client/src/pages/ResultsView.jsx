@@ -11,7 +11,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import SearchExpandable from "../components/SearchExpandable";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 export default function Results() {
   const NUMBER_PER_LOAD = 10;
   const status = {
@@ -53,34 +53,43 @@ export default function Results() {
   const [filters, setFilters] = React.useState(getParamsFromUrl());
 
   const getSearchResults = async () => {
-    
+    setSearchResults({ ...searchResults, status: status.LOADING });
     await fetch(
       `/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&start=${searchResults.results.length}&numberToLoad=${NUMBER_PER_LOAD}`
-    ).then((res) => {
-      if (res.status >= 400 && res.status < 600) {
-        setSearchResults({ status: status.ERROR, results: null});
-        throw new Error("Bad response from server");
-      } 
-      return res.json();
-    }).then((data) => {
-      if (data.searchResults.length === 0) {
-        setSearchResults({
-          status: searchResults.results.length === 0 ? status.NO_RESULTS : status.NO_MORE_RESULTS,
-          results: data.searchResults,
-        });
-      } else {
-        setSearchResults({
-          status: data.searchResults.length < NUMBER_PER_LOAD ? status.NO_MORE_RESULTS : status.RESULTS,
-          results: searchResults.results.concat(data.searchResults),
-        });
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    )
+      .then((res) => {
+        if (res.status >= 400 && res.status < 600) {
+          setSearchResults({ status: status.ERROR, results: null });
+          throw new Error("Bad response from server");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.searchResults.length === 0) {
+          setSearchResults({
+            status:
+              searchResults.results.length === 0
+                ? status.NO_RESULTS
+                : status.NO_MORE_RESULTS,
+            results: data.searchResults,
+          });
+        } else {
+          setSearchResults({
+            status:
+              data.searchResults.length < NUMBER_PER_LOAD
+                ? status.NO_MORE_RESULTS
+                : status.RESULTS,
+            results: searchResults.results.concat(data.searchResults),
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
-    getSearchResults()
+    getSearchResults();
   }, []);
 
   const getStringOfDate = (d) => {
@@ -109,6 +118,20 @@ export default function Results() {
                 <Grid item xs={12} md={12}>
                   <SearchExpandable filters={filters} />
                 </Grid>
+                {(searchResults.status === status.LOADING ||
+                  searchResults.status === status.RESULTS ||
+                  searchResults.status === status.NO_MORE_RESULTS) &&
+                  searchResults.results.map((hotel) => (
+                    <Grid item xs={12} md={6}>
+                      <SearchResult
+                        hotel={hotel}
+                        urlParams={window.location.pathname.replace(
+                          "/results/",
+                          ""
+                        )}
+                      ></SearchResult>
+                    </Grid>
+                  ))}
                 {searchResults.status === status.LOADING && (
                   <Grid item xs={12}>
                     <CircularProgress />
@@ -124,36 +147,23 @@ export default function Results() {
                     An error occured :/
                   </Grid>
                 )}
-
-                 {(searchResults.status === status.RESULTS || searchResults.status === status.NO_MORE_RESULTS) && (
-                  searchResults.results.map((hotel) => (
-                    <Grid item xs={12} md={6}>
-                      <SearchResult
-                        hotel={hotel}
-                        urlParams={window.location.pathname.replace(
-                          "/results/",
-                          ""
-                        )}
-                      ></SearchResult>
-                    </Grid>
-                  ))
-                  
-                )}
                 {searchResults.status === status.RESULTS && (
                   <Grid item xs={12}>
-                    <Button onClick={getSearchResults} >Load More</Button> 
-                    
-                    <br/>
-<Typography>{searchResults.results.length} results loaded.</Typography>
+                    <Button onClick={getSearchResults}>Load More</Button>
+
+                    <br />
+                    <Typography>
+                      {searchResults.results.length} results loaded.
+                    </Typography>
                   </Grid>
-                 
                 )}
                 {searchResults.status === status.NO_MORE_RESULTS && (
                   <Grid item xs={12}>
-                  <Typography>All {searchResults.results.length} results loaded.</Typography>
+                    <Typography>
+                      All {searchResults.results.length} results loaded.
+                    </Typography>
                   </Grid>
                 )}
-                
               </Grid>
             </div>
           </div>

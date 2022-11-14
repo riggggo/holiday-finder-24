@@ -13,7 +13,7 @@ import SearchExpandable from "../components/SearchExpandable";
 import { useParams } from "react-router-dom";
 import HotelOffer from "../components/HotelOffer";
 import CircularProgress from "@mui/material/CircularProgress";
-import {Typography} from "@mui/material";
+import { Typography } from "@mui/material";
 export default function HotelView() {
   const NUMBER_PER_LOAD = 10;
   const getParamsFromUrl = () => {
@@ -72,6 +72,7 @@ export default function HotelView() {
   };
 
   const getHotelOffers = async () => {
+    setOffers({ ...offers, status: status.LOADING });
     await fetch(
       `/api/getOffers?id=${filters.id}&destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&start=${offers.results.length}&numberToLoad=${NUMBER_PER_LOAD}`
     )
@@ -111,17 +112,18 @@ export default function HotelView() {
   }, []);
 
   const getChildrenAdultsString = () => {
-    let adultsString = `${parseInt(filters.adults) === 1 ? "one adult" : filters.adults + " adults"}`;
-   
+    let adultsString = `${
+      parseInt(filters.adults) === 1 ? "one adult" : filters.adults + " adults"
+    }`;
+
     if (parseInt(filters.children) === 0) {
       return adultsString;
-    } else if (parseInt(filters.children) === 1){
+    } else if (parseInt(filters.children) === 1) {
       return adultsString + " and one child";
     } else {
       return adultsString + ` and ${filters.children} children`;
     }
-    
-  }
+  };
 
   return (
     <div>
@@ -138,7 +140,7 @@ export default function HotelView() {
             <div className="sub-title">
               ({getStringOfDate(filters.timeFrom)} -{" "}
               {getStringOfDate(filters.timeTo)}, {getChildrenAdultsString()})
-          <br/>
+              <br />
             </div>
 
             <div className="search-wrapper">
@@ -147,6 +149,13 @@ export default function HotelView() {
                   <SearchExpandable filters={filters}></SearchExpandable>
                 </Grid>
 
+                {(offers.status === status.RESULTS || offers.status === status.LOADING ||
+                  offers.status === status.NO_MORE_RESULTS) &&
+                  offers.results.map((details) => (
+                    <Grid item xs={12}>
+                      <HotelOffer offer={details}></HotelOffer>
+                    </Grid>
+                  ))}
                 {offers.status === status.LOADING && (
                   <Grid item xs={12}>
                     <CircularProgress />
@@ -162,14 +171,6 @@ export default function HotelView() {
                     An error occured :/
                   </Grid>
                 )}
-
-                {(offers.status === status.RESULTS ||
-                  offers.status === status.NO_MORE_RESULTS) &&
-                  offers.results.map((details) => (
-                    <Grid item xs={12}>
-                      <HotelOffer offer={details}></HotelOffer>
-                    </Grid>
-                  ))}
                 {offers.status === status.RESULTS && (
                   <Grid item xs={12}>
                     <Button onClick={getHotelOffers}>Load More</Button>
