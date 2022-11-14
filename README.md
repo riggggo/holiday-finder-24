@@ -24,9 +24,8 @@ This Project requires a MySQL database.
 mv offers_samle_data_out.csv /var/lib/mysql-files/offers.csv
 mv hotels_sample_data.csv /var/lib/mysql-files/hotels.csv
 </pre>
-4. To create the database and load the data, run <pre>
-mysql -h <em>hostname</em> -u <em>user</em> -p< ./api/database_setup.sql
-</pre>
+4. To create the database and load the data, run 
+    <pre>mysql -h <em>hostname</em> -u <em>user</em> -p< ./api/database_setup.sql</pre>
 
 ### 2. Build and run the application
 1. Update the <em>api/database.js</em> file with your MySQL username.
@@ -34,24 +33,17 @@ mysql -h <em>hostname</em> -u <em>user</em> -p< ./api/database_setup.sql
     export DB_PASSWORD= <em>YOUR_PASSWORD</em>
     </pre>
     to set the required environment variable. 
-3.  Execute <pre>docker-compose up</pre>
-    to download the docker images and run the containers. You can view the application on localhost:3000.
-    
-    Alternatively, you can build and run the docker images by yourself:
-
+3.  To build and run the docker images:
     <pre>
     docker build ./api -p 8000:8000 --file ./api/Dockerfile --build-arg db_password=<em>YOUR_PASSWORD</em> --tag api
     docker build ./client -p 3000:3000--file ./client/Dockerfile --tag client
     docker run api
     docker run client
     </pre>
-    
-    
+    You can view the application on localhost:3000 :)
     
     
 
-
-. 
 
 
 
