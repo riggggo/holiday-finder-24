@@ -8,58 +8,57 @@ const Cache = require("./cache");
 const MAX_ELMENTS_CACHE = 20;
 const cache_results = new Cache(MAX_ELMENTS_CACHE);
 const airports = {
-  AMS: "Amsterdam (NL)",
-  BER: "Berlin (DE)",
-  BLL: "Billund (DK)",
-  BRE: "Bremen (DE)",
-  BRN: "Berne (CH)",
-  BRS: "Bristol (GB)",
-  BRU: "Brussels (BE)",
-  BSL: "Basel (CH)",
-  CGN: "Cologne (DE)",
-  DRS: "Dresden (DE)",
-  DTM: "Dortmund (DE)",
-  DUS: "Duesseldorf (DE)",
-  EIN: "Eindhoven (NL)",
-  ERF: "Erfurt (DE)",
-  FDH: "Friedrichshafen (DE)",
-  FRA: "Frankfurt/Main (DE)",
-  GRQ: "Groningen (NL)",
-  GRZ: "Graz (AT)",
-  GVA: "Geneva (CH)",
-  HAJ: "Hanover (DE)",
-  HAM: "Hamburg (DE)",
-  INN: "Innsbruck (AT)",
-  FKB: "Karlsruhe (DE)",
-  KLU: "Klagenfurt (AT)",
-  KRK: "Krakow (PL)",
-  KSF: "Kassel (DE)",
-  LBC: "Luebeck (DE)",
-  LEJ: "Leipzig (DE)",
-  LNZ: "Linz (AT)",
-  LUX: "Luxembourg (LU)",
-  MUC: "Munich (DE)",
-  FMM: "Memmingen (DE)",
-  FMO: "Muenster/Osnabrueck (DE)",
-  NUE: "Nuremberg (DE)",
-  PAD: "Paderborn (DE)",
-  PMI: "Palma Mallorca (ES)",
-  PRG: "Prague (CZ)",
-  SCN: "Saarbruecken (DE)",
-  STR: "Stuttgart (DE)",
-  SXB: "Strasbourg (FR)",
-  SZG: "Salzburg (AT)",
-  VIE: "Vienna (AT)",
-  WAW: "Warsaw (PL)",
-  NRN: "Weeze (DE)",
-  GWT: "Westerland (DE)",
-  ZRH: "Zurich (CH)",
-};
+  Amsterdam: 'AMS',
+  Berlin: 'BER',
+  Billund: 'BLL',
+  Bremen: 'BRE',
+  Berne: 'BRN',
+  Bristol: 'BRS',
+  Brussels: 'BRU',
+  Basel: 'BSL',
+  Cologne: 'CGN',
+  Dresden: 'DRS',
+  Dortmund: 'DTM',
+  Duesseldorf: 'DUS',
+  Eindhoven: 'EIN',
+  Erfurt: 'ERF',
+  Friedrichshafen: 'FDH',
+  'Frankfurt(Main)': 'FRA',
+  Groningen: 'GRQ',
+  Graz: 'GRZ',
+  Geneva: 'GVA',
+  Hanover: 'HAJ',
+  Hamburg: 'HAM',
+  Innsbruck: 'INN',
+  Karlsruhe: 'FKB',
+  Klagenfurt: 'KLU',
+  Krakow: 'KRK',
+  Kassel: 'KSF',
+  Luebeck: 'LBC',
+  Leipzig: 'LEJ',
+  Linz: 'LNZ',
+  Luxembourg: 'LUX',
+  Munich: 'MUC',
+  Memmingen: 'FMM',
+  'Muenster(Osnabrueck)': 'FMO',
+  Nuremberg: 'NUE',
+  Paderborn: 'PAD',
+  Palma: 'PMI',
+  Prague: 'PRG',
+  Saarbruecken: 'SCN',
+  Stuttgart: 'STR',
+  Strasbourg: 'SXB',
+  Salzburg: 'SZG',
+  Vienna: 'VIE',
+  Warsaw: 'WAW',
+  Weeze: 'NRN',
+  Westerland: 'GWT',
+  Zurich: 'ZRH'
+}
 
 
 app.get("/api/getAirports", (_, res) => {
-  for ()
-  res.json({ airports: airports });
+  res.json({ airports: Object.keys(airports) });
 });
 
 const getAllHotels = () => {
@@ -80,12 +79,19 @@ const formatDate = (date) => {
   return year + "." + month + "." + day + " " + hour + ":" + min;
 };
 
-const getQueryParams = (req) => {
-  const airports_string = req.query.airport
-    .split(",")
-    .map((airport) => mysql.escape(airport))
-    .toString();
+const createAirportString = (airportStringReq) => {
+  
+  return mysql.escape(airportStringReq)
+  .replaceAll("'", "")
+  .split(",")
+  .map((airport) => {
+    return "'" + airports[airport] + "'"})
+  .toString();
+}
 
+const getQueryParams = (req) => {
+  
+  const airports_string = createAirportString(req.query.airport);
   return {
     destination: mysql.escape(req.query.destination),
     timeTo: mysql.escape(req.query.timeTo),
