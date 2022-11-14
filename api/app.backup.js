@@ -56,9 +56,6 @@ const airports = [
   "ZRH",
 ];
 
-
-
-
 app.get("/api/getAirports", (_, res) => {
   res.json({ airports: airports });
 });
@@ -86,7 +83,6 @@ const getQueryParams = (req) => {
     .split(",")
     .map((airport) => mysql.escape(airport))
     .toString();
-
   return {
     destination: mysql.escape(req.query.destination),
     timeTo: mysql.escape(req.query.timeTo),
@@ -94,13 +90,10 @@ const getQueryParams = (req) => {
     adults: mysql.escape(req.query.adults),
     children: mysql.escape(req.query.children),
     airport: airports_string,
-    start: parseInt(mysql.escape(req.query.start).replace("'", "")),
-    numberToLoad: parseInt(mysql.escape(req.query.numberToLoad).replace("'", ""))
   };
 };
 
-
-const processQueryResults = (req, filters) => {
+const processQueryResults = (filters, from, to) => {
   const db_query = `SELECT distinct hotelname, id, latitude, latitude, hotelstars FROM hotels, offers WHERE 
       hotels.id = offers.hotelid AND
       countadults=${filters.adults} AND 
@@ -108,12 +101,13 @@ const processQueryResults = (req, filters) => {
       outbounddepartureairport in (${filters.airport})  AND
       departuredate >= "${formatDate(filters.timeFrom)}" AND 
       returndate <= "${formatDate(filters.timeTo)}"
-      LIMIT ${filters.numberToLoad} OFFSET ${filters.start}`;
+      LIMIT ${from} OFFSET ${to}
+      `;
 
   return db.promise().query(db_query);
 };
 
-const processQueryOffers = (req) => {
+const processQueryOffers = (req, from, to) => {
   const filters = {
     ...getQueryParams(req),
     id: mysql.escape(req.query.id),
@@ -125,26 +119,25 @@ const processQueryOffers = (req) => {
     outbounddepartureairport in (${filters.airport}) AND
     departuredate >= "${formatDate(filters.timeFrom)}" AND 
     returndate <= "${formatDate(filters.timeTo)}"
-    LIMIT ${filters.numberToLoad} OFFSET ${filters.start}`);
+    LIMIT ${from} OFFSET ${to}`);
 };
 
 app.get("/api/getOffers", async (req, res) => {
   console.log("Handling offer Request");
   try {
-    const offers = await processQueryOffers(req);
+    const offers = await processQueryOffers(req, 10, 0);
     res.json({ offers: offers[0] });
   } catch (e) {
     console.log(e);
     res.status(400).json({
-      searchResults: e
+      searchResults: e,
     });
   }
   console.log("Finished offer Request " + new Date());
-  
 });
 
 app.get("/api/getSearchResults", async (req, res) => {
-  console.log("Handling results request");
+  console.log("Handlich offer Request");
   try {
     const filters = getQueryParams(req);
     const element = cache_results.getElement(filters);
@@ -152,22 +145,19 @@ app.get("/api/getSearchResults", async (req, res) => {
       console.log("Using cache ...");
       res.json({ searchResults: element });
     } else {
-      const hotels = await processQueryResults(req, filters);
-      cache_results.addElement({filters: filters, results: hotels[0]});
+      const hotels = await processQueryResults(filters, 10, 10);
+      cache_results.addElement({filters: filters, results: hotels});
       res.json({ searchResults: hotels[0] });
     }
   } catch (e) {
     console.log(e);
     res.status(400).json({
-      searchResults: e
+      searchResults: e,
     });
   }
   console.log("Finished result Request " + new Date());
-  
 });
 
 app.listen(port, () => {
   console.log(`Server running at ${port}/`);
 }).keepAliveTimeout = 2 * 60 * 1000;
-
-/*app.use(cors())*/

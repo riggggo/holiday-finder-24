@@ -1,8 +1,8 @@
-# change date format to yyyy-mm-dd hh:mm:ss (for mysql)
-
 import sys
+
 import pandas as pd
 
+# change date format to yyyy-mm-dd hh:mm:ss (for mysql)
 
 def format_date(date):
     year = date.split("-")[0]
@@ -12,9 +12,8 @@ def format_date(date):
     return f"{year}-{month}-{day} {hhmmss}"
 
 
-filepath_in = "./offers.csv"
-filepath_out = "./offers_out.csv"
-
+filepath_in = sys.argv[1]
+filepath_out = sys.argv[2]
 
 
 def process(chunk, offset):
