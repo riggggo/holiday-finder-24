@@ -7,7 +7,7 @@
 
 This project is part of the [CHECK24 GenDev Holiday Challenge](https://github.com/check24-scholarships/holiday-challenge). You can search for trips to Mallorca from around 70 million real offers provided by CHECK24.
 
-I created a web application using the React framework (/client) and an Express.js backend that serves as a RESTful API (/api), the data is stored in a MySQL database.
+I created a responsive web application using the React framework (/client) and an Express.js backend that serves as a RESTful API (/api), the data is stored in a MySQL database.
 
 Dockerization and github actions enables continues deployment, triggered by a push to the main branch.
 
@@ -22,8 +22,7 @@ This Project requires a MySQL database.
 2. To get a first overview about how the application works, you can use the sample data from the [CHECK24 GenDev Holiday Challenge](https://github.com/check24-scholarships/holiday-challenge) README.md file and add more data later. This sample data is also stored in two .csv files in this repository, <em>hotels_sample_data.csv</em> and <em>offers_sample_data.csv</em>. To change the date format, run <pre>python3 api/changeDateFormat.py offers_samle_data.csv offers_samle_data_out.csv</pre>
 3. Now rename them to offers.csv and hotels.csv and move the files to <em>/var/lib/mysql-files/</em> (requiered by for the next step, alternatively adapt the <em>api/database_setup.sql</em> file).<pre>
 mv offers_samle_data_out.csv /var/lib/mysql-files/offers.csv
-mv hotels_sample_data.csv /var/lib/mysql-files/hotels.csv
-</pre>
+mv hotels_sample_data.csv /var/lib/mysql-files/hotels.csv</pre>
 4. To create the database and load the data, run 
     <pre>mysql -h <em>hostname</em> -u <em>user</em> -p< ./api/database_setup.sql</pre>
 
