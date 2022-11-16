@@ -4,16 +4,18 @@ version: '3.8'
 services:
   api:
     container_name: api
-    image: index.docker.io/riggggo/website_2.0_api:latest
+    build:
+      context: ./api 
+      args:
+      - db_password=${DB_PASSWORD}
     ports:
       - '8000:8000'
-    network_mode: "host"  
     stdin_open: true
     tty: true
     restart: on-failure
   client:
-    container_name: client_container
-    image: index.docker.io/riggggo/website_2.0_client:latest
+    build: ./client
+    container_name: client
     ports: 
       - '3000:3000'
     depends_on:

@@ -54,8 +54,12 @@ export default function Results() {
 
   const getSearchResults = async () => {
     setSearchResults({ ...searchResults, status: status.LOADING });
+    let baseUrl = "";
+    if (process.env.REACT_APP_API_URL) {
+      baseUrl = process.env.REACT_APP_API_URL;
+    }
     await fetch(
-      `/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&start=${searchResults.results.length}&numberToLoad=${NUMBER_PER_LOAD}`
+      `${baseUrl}/api/getSearchResults?destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&start=${searchResults.results.length}&numberToLoad=${NUMBER_PER_LOAD}`
     )
       .then((res) => {
         if (res.status >= 400 && res.status < 600) {
@@ -84,6 +88,7 @@ export default function Results() {
         }
       })
       .catch((err) => {
+        setSearchResults({ status: status.ERROR, results: null });
         console.log(err);
       });
   };

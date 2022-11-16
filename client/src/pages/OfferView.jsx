@@ -73,8 +73,12 @@ export default function HotelView() {
 
   const getHotelOffers = async () => {
     setOffers({ ...offers, status: status.LOADING });
+    let baseUrl = "";
+    if (process.env.REACT_APP_API_URL) {
+      baseUrl = process.env.REACT_APP_API_URL;
+    }
     await fetch(
-      `/api/getOffers?id=${filters.id}&destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&start=${offers.results.length}&numberToLoad=${NUMBER_PER_LOAD}`
+      `${baseUrl}/api/getOffers?id=${filters.id}&destination=${filters.destination}&timeTo=${filters.timeTo}&timeFrom=${filters.timeFrom}&adults=${filters.adults}&children=${filters.children}&airport=${filters.airport}&start=${offers.results.length}&numberToLoad=${NUMBER_PER_LOAD}`
     )
       .then((res) => {
         if (res.status >= 400 && res.status < 600) {
@@ -103,6 +107,7 @@ export default function HotelView() {
         }
       })
       .catch((err) => {
+        setOffers({ status: status.ERROR, results: null });
         console.log(err);
       });
   };

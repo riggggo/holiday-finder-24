@@ -4,8 +4,8 @@ rsync -avzh offers.csv  root@x.x.x.x:/root/
 install mysql
 */
 
-CREATE DATABASE holiday; 
-use holiday;
+CREATE DATABASE holiday_test3; 
+use holiday_test3;
 CREATE TABLE hotels (id SMALLINT not null, hotelname VARCHAR (255), latitude FLOAT, longitude FLOAT, hotelstars FLOAT, Primary key (id));
 
 

@@ -1,10 +1,12 @@
 const http = require("http");
 const express = require("express");
 const app = express();
+const cors = require('cors')
 const db = require("./database");
 const mysql = require("mysql2");
 const port = 8000;
 const Cache = require("./cache");
+require('dotenv').config()
 const MAX_ELMENTS_CACHE = 20;
 const cache_results = new Cache(MAX_ELMENTS_CACHE);
 const airports = {
@@ -56,7 +58,9 @@ const airports = {
   Zurich: 'ZRH'
 }
 
-
+if (process.env.MODE && process.env.MODE === "DEVELOPMENT"){
+  app.use(cors())
+}
 app.get("/api/getAirports", (_, res) => {
   res.json({ airports: Object.keys(airports) });
 });
@@ -173,4 +177,4 @@ app.listen(port, () => {
   console.log(`Server running at ${port}/`);
 }).keepAliveTimeout = 2 * 60 * 1000;
 
-/*app.use(cors())*/
+
