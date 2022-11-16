@@ -1,0 +1,41 @@
+.flightInformation{
+    background-color: red;
+    display: grid;
+    column-gap: 50px;
+    row-gap: 50px;
+}
+
+.circle{
+    
+    height: 15px;
+    width: 15px;
+    background-color: darkgrey;
+    border:1px solid rgb(71, 71, 71);
+    border-radius: 50%;
+    display: inline-block;
+    margin: auto;
+}
+
+.smallCircle{
+    
+    height: 7px;
+    width: 7px;
+    background-color: lightgrey;
+    border:1px solid rgb(71, 71, 71);
+    border-radius: 50%;
+    display: inline-block;
+    margin: auto;
+}
+
+.right{
+    text-align: right;
+}
+
+.left{
+    text-align: left;
+}
+
+.mediumSize{
+    font-size: 18px;
+    
+}

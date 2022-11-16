@@ -115,7 +115,6 @@ const processQueryResults = (req, filters) => {
       departuredate >= "${formatDate(filters.timeFrom)}" AND 
       returndate <= "${formatDate(filters.timeTo)}"
       LIMIT ${filters.numberToLoad} OFFSET ${filters.start}`;
-
   return db.promise().query(db_query);
 };
 

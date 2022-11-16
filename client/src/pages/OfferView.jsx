@@ -49,7 +49,7 @@ export default function HotelView() {
       airport: airport.split(","),
       destination: destination,
       id: id,
-      hotelname: hotelname.replaceAll("%20", " "),
+      hotelname: decodeURI(hotelname),
     };
   };
   const [filters, setFilters] = React.useState(getParamsFromUrl());
@@ -111,19 +111,7 @@ export default function HotelView() {
     getHotelOffers();
   }, []);
 
-  const getChildrenAdultsString = () => {
-    let adultsString = `${
-      parseInt(filters.adults) === 1 ? "one adult" : filters.adults + " adults"
-    }`;
-
-    if (parseInt(filters.children) === 0) {
-      return adultsString;
-    } else if (parseInt(filters.children) === 1) {
-      return adultsString + " and one child";
-    } else {
-      return adultsString + ` and ${filters.children} children`;
-    }
-  };
+  
 
   return (
     <div>
@@ -133,13 +121,13 @@ export default function HotelView() {
           <div className="title-wrapper">
             <h1 className="title">
               <div className="font-weight-normal">
-                Offers from <strong>"{decodeURI(filters.hotelname)}":</strong>
+                Offers from <strong>"{filters.hotelname}":</strong>
               </div>
             </h1>
 
             <div className="sub-title">
               ({getStringOfDate(filters.timeFrom)} -{" "}
-              {getStringOfDate(filters.timeTo)}, {getChildrenAdultsString()})
+              {getStringOfDate(filters.timeTo)})
               <br />
             </div>
 
