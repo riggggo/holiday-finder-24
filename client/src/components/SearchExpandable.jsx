@@ -26,7 +26,7 @@ export default function SearchExpandable(props) {
           <FilterAltIcon></FilterAltIcon>
         </AccordionSummary>
         <AccordionDetails>
-          <Search filters={props.filters}></Search>
+          <Search filters={props.filters} results={props.results}></Search>
         </AccordionDetails>
       </Accordion>
     </div>

@@ -116,7 +116,7 @@ export default function Results() {
             <div className="search-wrapper">
               <Grid container spacing={3}>
                 <Grid item xs={12} md={12}>
-                  <SearchExpandable filters={filters} />
+                  <SearchExpandable results={true} filters={filters} />
                 </Grid>
                 {(searchResults.status === status.LOADING ||
                   searchResults.status === status.RESULTS ||

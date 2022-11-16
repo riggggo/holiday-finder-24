@@ -134,7 +134,7 @@ export default function HotelView() {
             <div className="search-wrapper">
               <Grid container spacing={3}>
                 <Grid item xs={12} md={12}>
-                  <SearchExpandable filters={filters}></SearchExpandable>
+                  <SearchExpandable filters={filters} results={false}></SearchExpandable>
                 </Grid>
 
                 {(offers.status === status.RESULTS || offers.status === status.LOADING ||

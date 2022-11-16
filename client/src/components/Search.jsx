@@ -5,14 +5,18 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { create } from "@mui/material/styles/createTransitions";
 import Autocomplete from "@mui/material/Autocomplete";
-export default function FilterBar(props) {
+export default function Search(props) {
   const navigate = useNavigate();
 
   const [filters, setFilters] = React.useState(props.filters);
 
   const handleSubmit = () => {
-    console.log(createFilterSting());
-    navigate("/results" + createFilterSting());
+    if (props.results === true) {
+      navigate("/results" + createFilterStingResults());
+    } else {
+      navigate("/hotel" + createFilterStingOffers());
+    }
+    
   };
 
   const formatDate = (date) => {
@@ -25,7 +29,28 @@ export default function FilterBar(props) {
     );
   };
 
-  const createFilterSting = () => {
+  const createFilterStingOffers = () => {
+    return (
+      "/" +
+      filters.id +
+      "/" +
+      filters.hotelname +
+      "/" +
+      filters.destination +
+      "/" +
+      formatDate(filters.timeTo) +
+      "/" +
+      formatDate(filters.timeFrom) +
+      "/" +
+      filters.adults +
+      "/" +
+      filters.children +
+      "/" +
+      filters.airport.join(",")
+    );
+  };
+
+  const createFilterStingResults = () => {
     return (
       "/" +
       filters.destination +

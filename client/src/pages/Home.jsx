@@ -26,7 +26,7 @@ export default function Home() {
             <h1 className="title">Holiday24</h1>
             <div className="sub-title">Find your perfect trip!</div>
             <div className="search-wrapper">
-            <Search filters={defaultFilters} ></Search>
+            <Search filters={defaultFilters} results={true}></Search>
             </div>
             
           </div>
