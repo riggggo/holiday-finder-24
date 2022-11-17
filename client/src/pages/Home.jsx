@@ -23,7 +23,7 @@ export default function Home() {
       <NavigationBar />
         <Container maxWidth="lg" sx={{ padding: 0 }}>
           <div className="title-wrapper">
-            <h1 className="title">Holiday24</h1>
+            <h1 className="title">HolidayFinder24</h1>
             <div className="sub-title">Find your perfect trip!</div>
             <div className="search-wrapper">
             <Search filters={defaultFilters} results={true}></Search>
