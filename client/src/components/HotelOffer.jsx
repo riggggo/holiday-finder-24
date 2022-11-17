@@ -72,7 +72,7 @@ export default function HotelOffer(props) {
           (new Date(props.offer.returndate) -
             new Date(props.offer.departuredate)) /
             (1000 * 60 * 60 * 24)
-        )} Tage`}
+        )} days`}
         subheader={`${formatDate(props.offer.departuredate)} - ${formatDate(
           props.offer.returndate
         )}`}
