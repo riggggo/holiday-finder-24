@@ -1,4 +1,4 @@
-# project
+# HolidayFinder24
 
 <strong>Try it out: </strong>[Webapp](https://project.ricofinkbeiner.de/)
 
