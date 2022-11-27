@@ -15,13 +15,8 @@ root.render(
       <Router>
         <MuiThemeProvider theme={theme}>
           <Routes>
-            <Route path="/results/:destination/:timeTo/:timeFrom/:adults/:children/:airport" element={<ResultsView />} />
-            
-          </Routes>
-          <Routes>
-            <Route exact path="/hotel/:id/:hotelname/:destination/:timeTo/:timeFrom/:adults/:children/:airport" element={<HotelView />} />
-          </Routes>
-          <Routes>
+            <Route path="/results/:destination/:timeTo/:timeFrom/:adults/:children/:airport" element={<ResultsView />} />   
+            <Route path="/hotel/:id/:hotelname/:destination/:timeTo/:timeFrom/:adults/:children/:airport" element={<HotelView />} />
             <Route exact path="/" element={<Home />} />
           </Routes>
           
