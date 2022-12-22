@@ -1,7 +1,10 @@
+@font-face {
+  font-family: "poppins";
+  src: url("./poppins/Poppins-Regular.ttf");
+}
+
 body {
-  font-family: 'Poppins', sans-serif !important;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'poppins', sans-serif !important;
   text-align: center;
   color: black;
   margin: 0;
