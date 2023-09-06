@@ -1,0 +1,11 @@
+hotelid,departuredate,returndate,countadults,countchildren,price,inbounddepartureairport,inboundarrivalairport,inboundairline,inboundarrivaldatetime,outbounddepartureairport,outboundarrivalairport,outboundairline,outboundarrivaldatetime,mealtype,oceanview,roomtype
+90,2022-10-05 09:30:00,2022-10-12 08:35:00,1,1,1243,PMI,DUS,LH,2022-10-12 14:40:00,DUS,PMI,LH,2022-10-05 14:25:00,halfboard,False,double
+1096,2022-07-01 11:00:00,2022-07-08 07:30:00,2,0,1710,PMI,LEJ,EW,2022-07-08 10:00:00,LEJ,PMI,EW,2022-07-01 13:30:00,none,False,apartment
+656,2022-09-13 15:50:00,2022-09-21 07:50:00,2,0,2093,PMI,FRA,DE,2022-09-21 10:10:00,FRA,PMI,DE,2022-09-13 17:55:00,breakfast,False,double
+1880,2022-08-07 18:00:00,2022-08-12 08:20:00,2,0,1707,PMI,MUC,EWG,2022-08-12 10:35:00,MUC,PMI,EWG,2022-08-07 20:15:00,none,False,double
+1190,2022-09-20 17:35:00,2022-09-26 07:20:00,2,0,1866,PMI,SCN,EW,2022-09-26 09:30:00,SCN,PMI,EW,2022-09-20 19:40:00,breakfast,False,juniorsuite
+231,2023-06-07 06:25:00,2023-06-13 09:20:00,1,0,2131,PMI,STR,DE,2023-06-13 11:25:00,STR,PMI,DE,2023-06-07 08:30:00,breakfast,False,single
+757,2022-08-23 05:55:00,2022-08-30 07:50:00,2,0,1153,PMI,HAM,DE,2022-08-30 10:35:00,HAM,PMI,DE,2022-08-23 08:40:00,none,False,apartment
+86,2022-08-29 15:10:00,2022-09-02 18:10:00,3,0,1653,PMI,FDH,BUC,2022-09-02 20:20:00,FDH,PMI,BUC,2022-08-29 17:10:00,breakfast,False,triple
+223,2022-08-26 17:50:00,2022-08-30 10:00:00,2,0,980,PMI,STR,VY,2022-08-30 12:10:00,STR,PMI,EW,2022-08-26 19:50:00,breakfast,False,double
+187,2022-08-26 17:50:00,2022-08-30 10:00:00,2,0,1175,PMI,STR,VY,2022-08-30 12:10:00,STR,PMI,EW,2022-08-26 19:50:00,halfboard,False,double
