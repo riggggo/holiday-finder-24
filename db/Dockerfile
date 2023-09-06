@@ -1,4 +1,4 @@
-FROM mysql/mysql-server:latest
+FROM mysql/mysql-server:5.6
 
 ARG db_password
 ARG db_root_password
