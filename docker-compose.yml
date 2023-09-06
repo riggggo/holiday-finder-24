@@ -10,8 +10,6 @@ services:
       - db_password=${DB_PASSWORD}
     ports:
       - '8000:8000'
-    stdin_open: true
-    tty: true
     restart: on-failure
   client:
     build: ./client
@@ -20,5 +18,12 @@ services:
       - '3000:3000'
     depends_on:
       - api
-    stdin_open: true
-    tty: true
+    restart: on-failure
+  db:
+    build: ./db 
+    container_name: db 
+    ports: 
+      - '3306:3306'
+    depends_on:
+      - api 
+    

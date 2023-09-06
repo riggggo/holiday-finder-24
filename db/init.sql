@@ -1,21 +1,14 @@
 /*rsync -avzh hotels.csv  root@x.x.x.x:/root/
 rsync -avzh offers.csv  root@x.x.x.x:/root/
-
-install mysql
 */
 
-CREATE DATABASE holiday_test3; 
-use holiday_test3;
+CREATE DATABASE holiday; 
+use holiday;
 CREATE TABLE hotels (id SMALLINT not null, hotelname VARCHAR (255), latitude FLOAT, longitude FLOAT, hotelstars FLOAT, Primary key (id));
 
 
--- SHOW VARIABLES LIKE "secure_file_priv";
-
 load data infile "/var/lib/mysql-files/hotels.csv" into table hotels COLUMNS TERMINATED BY ','     OPTIONALLY
 ENCLOSED BY '"'     ESCAPED BY '"'     LINES TERMINATED BY '\n'     IGNORE 1 LINES;
-
-
-
 
 
 
