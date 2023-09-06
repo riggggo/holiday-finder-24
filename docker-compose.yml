@@ -4,26 +4,31 @@ version: '3.8'
 services:
   api:
     container_name: api
-    build:
-      context: ./api 
-      args:
-      - db_password=${DB_PASSWORD}
+    image: index.docker.io/riggggo/website_2.0_api:latest
     ports:
       - '8000:8000'
+    network_mode: "host"  
+    stdin_open: true
+    tty: true
     restart: on-failure
   client:
-    build: ./client
-    container_name: client
+    container_name: client_container
+    image: index.docker.io/riggggo/website_2.0_client:latest
     ports: 
       - '3000:3000'
     depends_on:
       - api
-    restart: on-failure
-  db:
-    build: ./db 
-    container_name: db 
-    ports: 
+    network_mode: "host"
+  mysql_db:
+    container_name: db
+    image: index.docker.io/riggggo/website_2.0_db:latest
+    network_mode: "host"
+    ports:
       - '3306:3306'
     depends_on:
-      - api 
-    
+      - api
+    volumes:
+      - /var/lib/mysql-files:/var/lib/mysql-files
+    command: --init-file /data/application/init.sql
+    restart: on-failure
+  

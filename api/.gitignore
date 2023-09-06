@@ -1,4 +1,4 @@
-.env
+*.env
 node_modules
 Performance.txt
 app.js.backup
