@@ -56,5 +56,5 @@ ENCLOSED BY '"'     ESCAPED BY '"'     LINES TERMINATED BY '\n'     IGNORE 1 LIN
 
 
 
-create index id_index on hotels(id)
-create index full_index on offers (hotelid, countadults, countchildren, outbounddepartureairport, departuredate, returndate)
+create index id_index on hotels(id);
+create index full_index on offers (hotelid, countadults, countchildren, outbounddepartureairport, departuredate, returndate);
