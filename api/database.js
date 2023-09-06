@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const password = process.env.DB_PASSWORD;
+const password = process.env.MYSQL_PASSWORD;
 
 let dbconnection = mysql.createPool({
     connectionLimit: 10,

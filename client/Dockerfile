@@ -1,5 +1,5 @@
 FROM node:17-alpine
-# nickname
+
 
 WORKDIR /app/client
 
