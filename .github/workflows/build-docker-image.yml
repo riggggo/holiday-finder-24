@@ -17,7 +17,7 @@ jobs:
     - name: Build the API Docker image
       run: docker build ./api --file ./api/Dockerfile --build-arg db_password=${{secrets.DB_PASSWORD}} --tag ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_api
     - name: Build the DB Docker image
-      run: docker build ./db --file ./db/Dockerfile --build-arg db_root_password=${{secrets.DB_ROOT_PASSWORD}} db_password=${{secrets.DB_PASSWORD}} --tag ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_db
+      run: docker build ./db --file ./db/Dockerfile --build-arg db_root_password=${{secrets.DB_ROOT_PASSWORD}} --build-arg db_password=${{secrets.DB_PASSWORD}} --tag ${{ secrets.DOCKERHUB_USERNAME }}/website_2.0_db
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
